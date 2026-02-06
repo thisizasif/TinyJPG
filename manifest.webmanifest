@@ -1,0 +1,15 @@
+﻿{
+  "name": "TinyJPG",
+  "short_name": "TinyJPG",
+  "start_url": "/TinyJPG/",
+  "display": "standalone",
+  "background_color": "#f7f8fb",
+  "theme_color": "#2563eb",
+  "icons": [
+    {
+      "src": "favicon.svg",
+      "type": "image/svg+xml",
+      "sizes": "any"
+    }
+  ]
+}
