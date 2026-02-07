@@ -6,9 +6,11 @@
 
 Reduce JPG/PNG/WebP file size with target size control, batch processing, and instant downloads — all locally.
 
+
 [Live Demo](https://thisizasif.github.io/TinyJPG/) · [Report Issue](https://github.com/thisizasif/TinyJPG/issues) · [Request Feature](https://github.com/thisizasif/TinyJPG/issues)
 
 </div>
+<p align="center"> <img src="https://raw.githubusercontent.com/thisizasif/TinyJPG/main/src/Banner.png" alt="TinyJPG Banner" width="100%"> </p>
 
 ---
 
@@ -83,3 +85,4 @@ Then open `http://localhost:8000/`.
 
 ## 🤝 Credits
 Built by **thisizasif**.
+
