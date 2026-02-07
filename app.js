@@ -15,6 +15,12 @@ const compressAllBtn = document.getElementById("compressAll");
 const clearAllBtn = document.getElementById("clearAll");
 const downloadZipBtn = document.getElementById("downloadZip");
 
+const densityToggle = document.getElementById("densityToggle");
+const densityLabel = document.getElementById("densityLabel");
+const compressAllBtnMobile = document.getElementById("compressAllMobile");
+const clearAllBtnMobile = document.getElementById("clearAllMobile");
+const downloadZipBtnMobile = document.getElementById("downloadZipMobile");
+
 const state = {
   items: [],
   isCompressing: false,
@@ -25,6 +31,7 @@ let recompressTimer = null;
 const AUTO_MAX_QUALITY = 0.92;
 
 const SETTINGS_KEY = "img-compressor-settings";
+const DENSITY_KEY = "img-compressor-density";
 
 const formatBytes = (bytes) => {
   if (bytes === 0) return "0 B";
@@ -91,6 +98,10 @@ const createCard = (item) => {
     <div class="result-info">
       <div class="result-name">${item.file.name}</div>
       <div class="result-meta">Original: ${formatBytes(item.originalSize)} | Output: --</div>
+      <div class="result-status">
+        <span class="status-pill status-pill--ready">Ready</span>
+        <span class="status-note">Waiting to compress</span>
+      </div>
       <div class="result-actions">
         <button class="btn btn-ghost" data-action="compress" type="button">Compress</button>
         <button class="btn" data-action="download" type="button" disabled>Download</button>
@@ -108,10 +119,23 @@ const updateCard = (item) => {
   const img = card.querySelector("img");
   const downloadBtn = card.querySelector('[data-action="download"]');
   const compressBtn = card.querySelector('[data-action="compress"]');
+  const statusPill = card.querySelector(".status-pill");
+  const statusNote = card.querySelector(".status-note");
+
+  const setStatus = (label, tone, note = "") => {
+    if (statusPill) {
+      statusPill.textContent = label;
+      statusPill.className = `status-pill status-pill--${tone}`;
+    }
+    if (statusNote) {
+      statusNote.textContent = note;
+    }
+  };
 
   if (item.status === "working") {
     meta.textContent = `Original: ${formatBytes(item.originalSize)} | Compressing...`;
     compressBtn.disabled = true;
+    setStatus("Compressing", "working", "Optimizing size");
     updateCount();
     return;
   }
@@ -119,13 +143,21 @@ const updateCard = (item) => {
   compressBtn.disabled = false;
   if (item.outputSize) {
     const savings = ((1 - item.outputSize / item.originalSize) * 100).toFixed(1);
-    const note = item.note ? ` | ${item.note}` : "";
-    meta.textContent = `Original: ${formatBytes(item.originalSize)} | Output: ${formatBytes(item.outputSize)} | Saved: ${savings}%${note}`;
+    meta.textContent = `Original: ${formatBytes(item.originalSize)} | Output: ${formatBytes(item.outputSize)} | Saved: ${savings}%`;
     downloadBtn.disabled = false;
     img.src = item.outputUrl;
+
+    const targetNote = item.targetBytes
+      ? item.outputSize <= item.targetBytes
+        ? "Target met"
+        : "Target close"
+      : "Done";
+    const note = item.note ? `${targetNote} ? ${item.note}` : targetNote;
+    setStatus("Done", item.targetBytes && item.outputSize > item.targetBytes ? "warning" : "success", note);
   } else {
     meta.textContent = `Original: ${formatBytes(item.originalSize)} | Output: --`;
     downloadBtn.disabled = true;
+    setStatus("Ready", "ready", "Waiting to compress");
   }
   updateCount();
 };
@@ -150,6 +182,7 @@ const addFiles = (files) => {
       outputSize: 0,
       status: "ready",
       note: "",
+      targetBytes: 0,
     };
 
     state.items.push(item);
@@ -217,6 +250,7 @@ const compressItem = async (item) => {
 
     const selectedFormat = formatSelect.value;
     const targetBytes = parseTargetSize(targetSizeInput.value, targetUnitSelect.value);
+    item.targetBytes = targetBytes;
     const baseType = selectedFormat === "original" ? item.file.type || "image/jpeg" : selectedFormat;
     const outputType = baseType;
     const maxQuality = AUTO_MAX_QUALITY;
@@ -385,6 +419,23 @@ const saveSettings = () => {
   localStorage.setItem(SETTINGS_KEY, JSON.stringify(settings));
 };
 
+const applyDensity = (density) => {
+  const mode = density === "compact" ? "compact" : "comfort";
+  resultsList.classList.toggle("is-compact", mode === "compact");
+  if (densityToggle) {
+    densityToggle.setAttribute("aria-pressed", mode === "compact");
+  }
+  if (densityLabel) {
+    densityLabel.textContent = mode === "compact" ? "Compact" : "Comfort";
+  }
+  localStorage.setItem(DENSITY_KEY, mode);
+};
+
+const loadDensity = () => {
+  const saved = localStorage.getItem(DENSITY_KEY) || "comfort";
+  applyDensity(saved);
+};
+
 const loadSettings = () => {
   const raw = localStorage.getItem(SETTINGS_KEY);
   if (!raw) return;
@@ -447,7 +498,19 @@ dropzone.addEventListener("drop", (event) => {
   }
 });
 
+if (densityToggle) {
+  densityToggle.addEventListener("click", () => {
+    const isCompact = resultsList.classList.contains("is-compact");
+    applyDensity(isCompact ? "comfort" : "compact");
+  });
+}
+
 resultsList.addEventListener("click", (event) => {
+  const emptyBtn = event.target.closest(".empty-upload");
+  if (emptyBtn) {
+    fileInput.click();
+    return;
+  }
   const actionButton = event.target.closest("button");
   if (!actionButton) return;
   const card = actionButton.closest(".result-card");
@@ -471,14 +534,33 @@ compressAllBtn.addEventListener("click", () => {
   compressAll();
 });
 
+if (compressAllBtnMobile) {
+  compressAllBtnMobile.addEventListener("click", () => {
+    compressAll();
+  });
+}
+
 downloadZipBtn.addEventListener("click", () => {
   downloadZip();
 });
+
+if (downloadZipBtnMobile) {
+  downloadZipBtnMobile.addEventListener("click", () => {
+    downloadZip();
+  });
+}
 
 clearAllBtn.addEventListener("click", () => {
   clearAll();
 });
 
+if (clearAllBtnMobile) {
+  clearAllBtnMobile.addEventListener("click", () => {
+    clearAll();
+  });
+}
+
 loadSettings();
+loadDensity();
 updateCount();
 renderEmpty();

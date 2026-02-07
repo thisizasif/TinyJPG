@@ -32,8 +32,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet" />
-   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='18' fill='%230b0d12'/%3E%3Ctext x='50' y='70' font-size='85' text-anchor='middle' dominant-baseline='middle' fill='%23f97316' font-family='Arial' font-weight='700'%3ETJ%3C/text%3E%3C/svg%3E" />
-  <link rel="stylesheet" href="styles.css" />
+   <link rel="stylesheet" href="styles.css" />
   <script type="application/ld+json">
     {
       "@context": "https://schema.org",
@@ -110,6 +109,12 @@
       </div>
     </header>
 
+    <div class="header-strip">
+      <div class="strip-item">Private in-browser compression</div>
+      <div class="strip-item">Target size control</div>
+      <div class="strip-item">Batch export with ZIP</div>
+    </div>
+
     <section class="ad-panel" aria-label="Advertisement">
       <div class="ad-label">Sponsored</div>
       <div class="ad-slot">
@@ -182,6 +187,10 @@
             <p>Preview and download compressed files.</p>
           </div>
           <div class="results-meta">
+            <button class="density-toggle" id="densityToggle" type="button" aria-pressed="false">
+              <span class="density-label" id="densityLabel">Comfort</span>
+              <span class="density-dot"></span>
+            </button>
             <span class="results-count" id="resultCount">0 files</span>
             <span class="results-count" id="summaryStats">0 KB saved</span>
           </div>
@@ -281,9 +290,99 @@
         </div>
       </div>
     </section>
+
+    <footer class="footer">
+      <div>
+        <div class="footer-title">More Tools</div>
+        <div class="footer-groups">
+          <div class="footer-group">
+            <div class="footer-group-title">Image Tools</div>
+            <div class="footer-links">
+              <a href="#" class="footer-link">Image Compressor</a>
+              <a href="#" class="footer-link">JPG Compressor</a>
+              <a href="#" class="footer-link">PNG Compressor</a>
+              <a href="#" class="footer-link">WebP Compressor</a>
+              <a href="#" class="footer-link">GIF Compressor</a>
+              <a href="#" class="footer-link">Resize Image</a>
+              <a href="#" class="footer-link">Crop Image</a>
+              <a href="#" class="footer-link">Rotate Image</a>
+              <a href="#" class="footer-link">Flip Image</a>
+              <a href="#" class="footer-link">Image Optimizer</a>
+              <a href="#" class="footer-link">Image Upscaler</a>
+              <a href="#" class="footer-link">Image Downscaler</a>
+            </div>
+          </div>
+          <div class="footer-group">
+            <div class="footer-group-title">Image Converters</div>
+            <div class="footer-links">
+              <a href="#" class="footer-link">JPG to PNG</a>
+              <a href="#" class="footer-link">PNG to JPG</a>
+              <a href="#" class="footer-link">Image to WebP</a>
+              <a href="#" class="footer-link">WebP to JPG</a>
+              <a href="#" class="footer-link">WebP to PNG</a>
+              <a href="#" class="footer-link">HEIC Converter</a>
+              <a href="#" class="footer-link">AVIF Converter</a>
+              <a href="#" class="footer-link">AVIF to JPG</a>
+              <a href="#" class="footer-link">AVIF to PNG</a>
+              <a href="#" class="footer-link">Image to Base64</a>
+              <a href="#" class="footer-link">Base64 to Image</a>
+            </div>
+          </div>
+          <div class="footer-group">
+            <div class="footer-group-title">PDF Tools</div>
+            <div class="footer-links">
+              <a href="#" class="footer-link">PDF Compressor</a>
+              <a href="#" class="footer-link">PDF Merger</a>
+              <a href="#" class="footer-link">PDF Splitter</a>
+              <a href="#" class="footer-link">Compress PDF</a>
+              <a href="#" class="footer-link">Unlock PDF</a>
+              <a href="#" class="footer-link">Protect PDF</a>
+              <a href="#" class="footer-link">Rotate PDF</a>
+              <a href="#" class="footer-link">Watermark PDF</a>
+              <a href="#" class="footer-link">Remove PDF Pages</a>
+              <a href="#" class="footer-link">Reorder PDF Pages</a>
+            </div>
+          </div>
+          <div class="footer-group">
+            <div class="footer-group-title">PDF Converters</div>
+            <div class="footer-links">
+              <a href="#" class="footer-link">Image to PDF</a>
+              <a href="#" class="footer-link">Merge Images to PDF</a>
+              <a href="#" class="footer-link">JPG to PDF</a>
+              <a href="#" class="footer-link">PNG to PDF</a>
+              <a href="#" class="footer-link">PDF to Image</a>
+              <a href="#" class="footer-link">PDF to JPG</a>
+              <a href="#" class="footer-link">PDF to PNG</a>
+              <a href="#" class="footer-link">PDF to Text</a>
+              <a href="#" class="footer-link">PDF to Word</a>
+              <a href="#" class="footer-link">Word to PDF</a>
+              <a href="#" class="footer-link">PDF to PPT</a>
+              <a href="#" class="footer-link">PPT to PDF</a>
+              <a href="#" class="footer-link">PDF to Excel</a>
+              <a href="#" class="footer-link">Excel to PDF</a>
+            </div>
+          </div>
+          <div class="footer-group">
+            <div class="footer-group-title">Utilities</div>
+            <div class="footer-links">
+              <a href="#" class="footer-link">SVG Optimizer</a>
+              <a href="#" class="footer-link">Batch Rename Images</a>
+              <a href="#" class="footer-link">ZIP Creator</a>
+              <a href="#" class="footer-link">ZIP Extractor</a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="footer-meta">(c) 2026 TinyJPG</div>
+    </footer>
+
+    <div class="mobile-actions" aria-label="Quick actions">
+      <button class="btn btn-ghost" id="clearAllMobile" type="button">Clear</button>
+      <button class="btn btn-ghost" id="downloadZipMobile" type="button">Download ZIP</button>
+      <button class="btn" id="compressAllMobile" type="button">Compress all</button>
+    </div>
   </div>
   <script src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js"></script>
   <script src="app.js"></script>
 </body>
 </html>
-

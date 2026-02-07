@@ -1,4 +1,4 @@
-﻿<div align="center">
+﻿﻿<div align="center">
 
 # TinyJPG
 
@@ -85,4 +85,3 @@ Then open `http://localhost:8000/`.
 
 ## 🤝 Credits
 Built by **thisizasif**.
-
