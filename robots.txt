@@ -1,4 +1,0 @@
-﻿User-agent: *
-Allow: /
-
-Sitemap: https://thisizasif.github.io/TinyJPG/sitemap.xml
